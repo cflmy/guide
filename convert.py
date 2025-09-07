@@ -1,66 +1,74 @@
 import yaml
 import os
+import shutil
 
-# 读取YAML文件
-with open('guide.yml', 'r', encoding='utf-8') as f:
-    data = yaml.safe_load(f)
+# 确保public文件夹存在
+def ensure_directory_exists(directory):
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
-# 生成HTML内容
-html_content = '''<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>网站导航</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="https://openlist.cflmy.cn/sd/iv5f06Iw/Web/logo/logo.ico">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-    <div class="container">
-        <header>
-            <div class="logo-container">
-                <img src="https://openlist.cflmy.cn/sd/iv5f06Iw/Web/logo/logo-rb-b.webp" alt="Logo" class="logo">
-                <h1>网站导航</h1>
-            </div>
-        </header>
+# 复制文件到目标目录
+def copy_file(source, destination):
+    if os.path.exists(source):
+        shutil.copy2(source, destination)
+        print(f"已复制: {source} -> {destination}")
+
+# 读取模板文件
+def read_template(file_path):
+    with open(file_path, 'r', encoding='utf-8') as f:
+        return f.read()
+
+# 生成HTML主内容
+def generate_main_content(data):
+    content = "\n"
+    # 添加分类内容
+    for category in data:
+        content += "        <section class='category'>\n"
+        content += "            <h2><i class='fas " + category['icon'] + "'></i> " + category['category'] + "</h2>\n"
+        content += "            <p class='category-description'>" + category['description'] + "</p>\n"
+        content += "            <div class='items'>\n"
         
-        <main>
-'''
-
-# 添加分类内容
-for category in data:
-    html_content += f"        <section class='category'>\n"
-    html_content += f"            <h2><i class='fas {category['icon']}'></i> {category['category']}</h2>\n"
-    html_content += f"            <p class='category-description'>{category['description']}</p>\n"
-    html_content += f"            <div class='items'>\n"
-    
-    for item in category['items']:
-        html_content += f"                <div class='item'>\n"
-        html_content += f"                    <a href='{item['link']}' target='_blank'>\n"
-        html_content += f"                        <h3>{item['name']}</h3>\n"
-        html_content += f"                        <p>{item['description']}</p>\n"
-        html_content += f"                        <span class='link'>{item['link']}</span>\n"
-        html_content += f"                    </a>\n"
-        html_content += f"                </div>\n"
-    
-    html_content += f"            </div>\n"
-    html_content += f"        </section>\n"
-
-# 完成HTML内容
-html_content += '''        </main>
+        for item in category['items']:
+            content += "                <div class='item'>\n"
+            content += "                    <a href='" + item['link'] + "' target='_blank'>\n"
+            content += "                        <h3>" + item['name'] + "</h3>\n"
+            content += "                        <p>" + item['description'] + "</p>\n"
+            content += "                        <span class='link'>" + item['link'] + "</span>\n"
+            content += "                    </a>\n"
+            content += "                </div>\n"
         
-        <footer>
-            <p>&copy; 2023 网站导航</p>
-        </footer>
-    </div>
+        content += "            </div>\n"
+        content += "        </section>\n"
+    return content
+
+# 主函数
+def main():
+    # 读取YAML文件
+    with open('guide.yml', 'r', encoding='utf-8') as f:
+        data = yaml.safe_load(f)
     
-    <script src="script.js"></script>
-</body>
-</html>'''
+    # 确保public文件夹存在
+    ensure_directory_exists('public')
+    
+    # 复制assets文件夹中的CSS和JS文件到public文件夹
+    copy_file('assets/style.css', 'public/style.css')
+    copy_file('assets/script.js', 'public/script.js')
+    
+    # 读取模板文件
+    header_template = read_template('templates/header.html')
+    footer_template = read_template('templates/footer.html')
+    
+    # 生成主内容
+    main_content = generate_main_content(data)
+    
+    # 组合完整的HTML内容，确保格式正确
+    html_content = header_template + main_content + footer_template
+    
+    # 写入HTML文件
+    with open('public/index.html', 'w', encoding='utf-8') as f:
+        f.write(html_content)
+    
+    print("HTML文件已生成：public/index.html")
 
-# 写入HTML文件
-with open('public/index.html', 'w', encoding='utf-8') as f:
-    f.write(html_content)
-
-print("HTML文件已生成：public/index.html")
+if __name__ == "__main__":
+    main()
