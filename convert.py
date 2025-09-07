@@ -1,6 +1,7 @@
 import yaml
 import os
 import shutil
+import yaml
 
 # 确保public文件夹存在
 def ensure_directory_exists(directory):
@@ -50,9 +51,13 @@ def main():
     # 确保public文件夹存在
     ensure_directory_exists('public')
     
-    # 复制assets文件夹中的CSS和JS文件到public文件夹
-    copy_file('assets/style.css', 'public/style.css')
-    copy_file('assets/script.js', 'public/script.js')
+    # 创建public/assets/css和public/assets/js目录
+    ensure_directory_exists('public/assets/css')
+    ensure_directory_exists('public/assets/js')
+    
+    # 复制assets文件夹中的CSS和JS文件到对应的目录
+    copy_file('assets/css/style.css', 'public/assets/css/style.css')
+    copy_file('assets/js/script.js', 'public/assets/js/script.js')
     
     # 读取模板文件
     header_template = read_template('templates/header.html')
