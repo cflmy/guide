@@ -19,6 +19,9 @@
     - name: Mkdcs博客-国内加速站
       link: https://mkdocs.cflmy.cn 
       description: 作者的mkdocs博客使用国内服务器部署
+    - name: Guide-网站导航
+      link: https://guide.cflmy.cn 
+      description: 作者的网站导航页
 
 - category: cflmy.top
   icon: fa-align-right
