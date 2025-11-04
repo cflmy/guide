@@ -1,0 +1,49 @@
+baseURL = 'https://guide.cflmy.cn/'
+languageCode = 'zh-CN'
+title = 'cflmy网站导航'
+theme = 'webstack'
+preserveTaxonomyNames = true
+disablePathToLower    = true
+hasCJKLanguage        = true
+publishDir            = "public"				# 站点静态文件保存目录
+
+
+[params]
+    author        = "cflmy"
+    description   = "cflmy-主题导航"
+    upload        = ""      # 左侧导航栏的"网站提交"
+    about         = ""	          # 左侧导航栏的"关于导航"页面(./about)
+    repository    = ""  
+    enablePreLoad = true					# 网站完全打开前预加载动画
+    textPreLoad   = "CFLMY-网址导航"				# 预加载的动画文字, 只有当enablePreLoad=true时生效
+    expandSidebar = false					# 默认展开左侧边导航栏
+    logosPath     = "assets/logo/"			# 网站每个导航地址logo存放地址
+    defaultLogo   = "assets/images/logos/default.webp"		# logo图片资源不存在或者错误时, 默认显示的logo; 该参数如为空,将会一直加载对应的logo,直至成功
+    nightMode     = false					# 默认站点为深色(夜间)模式
+    yiyan         = false                         		# 默认启用一言服务
+    fancybox      = true                                        # 使用 Fancybox 实现图片灯箱/放大功能
+
+[params.seo]    
+    baiduhmid       = ''	# 百度统计 hm.src 的 ID
+    baiduSiteVer    = ''			# 百度HTML标签验证(baidu-site-verification)
+    tj51laid        = ''                        		# 51.LA 网站统计
+    tj51lack        = ''
+    GoogleAdsClient = ''					# Google AdSense 
+
+[params.qweather]
+    key = ""
+
+[params.images]
+    favicon           = "assets/logo/logo.ico"
+    searchImageL      = "assets/logo/CFLMY.webp"		# 搜索部分浅色背景图
+    searchImageD      = "assets/logo/CFLMY-B.webp"		# 搜索部分深色背景图
+    logoExpandLight   = "assets/logo/guide.webp"
+    logoExpandDark    = "assets/logo/guide-b.webp"
+    logoCollapseLight = "assets/logo/logo-rb-b.webp"
+    logoCollapseDark  = "assets/logo/logo-rb.webp"
+    
+[markup.goldmark.renderer]
+    unsafe = true
+
+[params.footer]
+    copyright = '本站模板源自互联网，如有内容侵犯了你的权益，请联系删除相关内容，联系邮箱：pingan@cflmy.com <br/>&copy; 2025 - {year} By [CFLMY](https://www.cflmy.cn) <br/><br>特别鸣谢开发了这套网站导航模板的开发者-[WebStack-Hugo](https://np.pagex.top/)</br>'
